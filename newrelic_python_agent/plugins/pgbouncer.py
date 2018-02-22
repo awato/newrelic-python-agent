@@ -36,15 +36,15 @@ class PgBouncer(postgresql.PostgreSQL):
         for database in stats['STATS']:
             metric = 'Database/%s' % database['database']
             self.add_derive_value('%s/Query Time' % metric, 'seconds',
-                                  database['total_query_time'])
+                                  database['total_query_time'] / 1000000.0)
             self.add_derive_value('%s/Queries' % metric, 'requests',
                                   database['total_query_count'])
             self.add_derive_value('%s/Data Sent' % metric, 'bytes',
                                   database['total_sent'])
             self.add_derive_value('%s/Data Received' % metric, 'bytes',
                                   database['total_received'])
-            self.add_derive_value('%s/Wait Time' % metric, 'bytes',
-                                  database['total_wait_time'])
+            self.add_derive_value('%s/Wait Time' % metric, 'seconds',
+                                  database['total_wait_time'] / 1000000.0)
             requests += database['total_query_count']
 
         self.add_derive_value('Overview/Requests', 'requests', requests)
