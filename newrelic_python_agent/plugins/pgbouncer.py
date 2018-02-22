@@ -45,7 +45,7 @@ class PgBouncer(postgresql.PostgreSQL):
                                   database['total_received'])
             self.add_derive_value('%s/Wait Time' % metric, 'bytes',
                                   database['total_wait_time'])
-            requests += database['total_requests']
+            requests += database['total_query_count']
 
         self.add_derive_value('Overview/Requests', 'requests', requests)
 
